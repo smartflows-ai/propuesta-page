@@ -99,9 +99,26 @@ const style = `
   .scale-full { font-size:.78rem; color:var(--white-dim); margin-bottom:.45rem; }
   .scale-use { font-size:.78rem; color:var(--white-dim); line-height:1.45; }
 
+  /* PAIN MAP */
+  .pain-list { display:flex; flex-direction:column; gap:.65rem; margin-top:2rem; }
+  .pain-row { display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; background:var(--navy-light); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.3rem; transition:border-color .25s; }
+  .pain-row:hover { border-color:rgba(0,230,118,.2); }
+  .pain-row.solved { border-left:3px solid var(--green); }
+  .pain-ico-txt { display:flex; align-items:center; gap:.75rem; }
+  .pain-ico { font-size:1.3rem; flex-shrink:0; }
+  .pain-txt { font-size:.88rem; color:var(--white-dim); line-height:1.4; }
+  .pain-txt strong { color:var(--white); font-weight:600; display:block; margin-bottom:.1rem; }
+  .pain-badge { flex-shrink:0; display:flex; align-items:center; gap:.35rem; }
+  .pain-phase { font-size:.68rem; font-weight:800; letter-spacing:.8px; text-transform:uppercase; padding:.28rem .7rem; border-radius:50px; white-space:nowrap; }
+  .pain-phase.f1 { background:rgba(0,230,118,.12); color:var(--green); border:1px solid rgba(0,230,118,.25); }
+  .pain-phase.f2 { background:rgba(38,198,218,.1); color:#26c6da; border:1px solid rgba(38,198,218,.2); }
+  .pain-phase.f3 { background:rgba(171,71,188,.1); color:#ab47bc; border:1px solid rgba(171,71,188,.2); }
+  .pain-phase.f4 { background:rgba(255,112,67,.1); color:#ff7043; border:1px solid rgba(255,112,67,.2); }
+  .pain-phase.f5 { background:rgba(212,168,83,.1); color:var(--gold); border:1px solid rgba(212,168,83,.2); }
+
   /* FASES */
   .phases-wrap { display:grid; grid-template-columns:repeat(auto-fit,minmax(205px,1fr)); gap:1.1rem; margin-top:2.5rem; }
-  .phase-card { background:var(--navy-light); border:1px solid var(--border); border-radius:var(--radius); padding:1.7rem; transition:all .3s; position:relative; overflow:hidden; }
+  .phase-card { background:var(--navy-light); border:1px solid var(--border); border-radius:var(--radius); padding:1.7rem; transition:all .3s; position:relative; overflow:hidden; display:flex; flex-direction:column; }
   .phase-card:hover { border-color:rgba(0,230,118,.3); transform:translateY(-5px); }
   .phase-bg-n { position:absolute; right:-8px; top:-8px; font-family:'Fraunces',serif; font-size:6rem; font-weight:900; color:rgba(0,230,118,.04); line-height:1; pointer-events:none; }
   .phase-tag { display:inline-flex; align-items:center; gap:.35rem; background:var(--green-glow); color:var(--green); font-size:.68rem; font-weight:700; letter-spacing:.8px; text-transform:uppercase; padding:.22rem .65rem; border-radius:50px; margin-bottom:.75rem; }
@@ -110,7 +127,7 @@ const style = `
   .phase-items li { font-size:.79rem; color:var(--white-dim); padding-left:.9rem; position:relative; line-height:1.4; }
   .phase-items li::before { content:'→'; position:absolute; left:0; color:var(--green); font-size:.66rem; top:.12rem; }
   .phase-kpi { margin-top:.85rem; padding:.55rem .75rem; background:rgba(0,230,118,.06); border-radius:8px; font-size:.73rem; color:var(--green); font-weight:600; }
-  .phase-footer { margin-top:.85rem; padding-top:.85rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.25rem; }
+  .phase-footer { margin-top:auto; padding-top:.85rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.25rem; }
   .phase-footer .days { font-size:.78rem; font-weight:700; color:var(--green); }
   .phase-footer .weeks { font-size:.73rem; color:var(--white-dim); }
   .phase-footer .cost { font-size:.85rem; font-weight:700; color:var(--white); margin-top:.1rem; }
@@ -244,31 +261,31 @@ const style = `
 const phases = [
     {
         n: '01', cls: 'g1', badge: 'Abr 2026', name: 'Digital Foundation',
-        days: '~27 días hábiles', weeks: '5–6 semanas', cost: '$141,300', pct: '20%',
-        items: ['Nueva página web para captar más pacientes', 'Google Ads enfocados en citas de alto valor', 'Migración exitosa de tu sitio actual', 'Estructura base del Expediente Digital', 'Análisis de datos de visitantes (Google Analytics)', 'Asistente de WhatsApp automático las 24 hrs', 'Tus asistentes retoman conversaciones complejas'],
+        days: '~27 días hábiles', weeks: '5–6 semanas', cost: '$141,300', origCost: '$234,800', pct: '20%',
+        items: ['Nueva página web con calendarios de Doctoralia y TopDoctors visibles para agendar', 'Google Ads enfocados en citas de alto valor*', 'Migración de drcesarruiz.com y saludosea.com', 'Expediente Digital: nombre, contacto, padecimiento, historial', 'Análisis de datos de visitantes (Google Analytics)', 'Asistente WhatsApp directo para agendar rehabilitación', 'Envío automático del link de drcesarruiz.com para citas con el doctor', 'Acercamiento y configuración inicial con Doctoralia'],
         kpi: '-60% pérdida de pacientes',
     },
     {
         n: '02', cls: 'g2', badge: 'Jul 2026', name: 'Patient Platform',
-        days: '~47 días hábiles', weeks: '9–10 semanas', cost: '$285,500', pct: '36%',
+        days: '~47 días hábiles', weeks: '9–10 semanas', cost: '$285,500', origCost: '$536,400', pct: '36%',
         items: ['Cuentas separadas: Doctor, Asistentes, Clínica', 'Agenda inteligente (consultas separadas de rehab)', 'Portal privado para cada paciente', 'Cuestionarios médicos enviados automático antes de cita', 'Inteligencia Artificial para redactar notas médicas', 'Borradores automáticos integrados a tu expediente', 'Tienda en línea: cremas, suplementos, proteínas'],
         kpi: '-30% tiempo escribiendo notas',
     },
     {
         n: '03', cls: 'g3', badge: 'Sep 2026', name: 'CRM Automation',
-        days: '~33 días hábiles', weeks: '6–7 semanas', cost: '$221,900', pct: '26%',
+        days: '~33 días hábiles', weeks: '6–7 semanas', cost: '$221,900', origCost: '$372,200', pct: '26%',
         items: ['Sincronización automática con Doctoralia', 'Diferentes IA para citas generales vs. terapias', 'Envío inteligente de promociones y descuentos', 'Seguimiento por WhatsApp según el padecimiento', 'Página web dedicada exclusivamente a cirugías', 'Propuesta de nueva marca registrable'],
         kpi: 'Doctoralia + WhatsApp unidos',
     },
     {
         n: '04', cls: 'g4', badge: 'Nov 2026', name: 'Intelligence',
-        days: '~28 días hábiles', weeks: '5–6 semanas', cost: '$178,700', pct: '21%',
+        days: '~28 días hábiles', weeks: '5–6 semanas', cost: '$178,700', origCost: '$309,800', pct: '21%',
         items: ['Panel visual de ingresos, citas y crecimiento', 'Cobros con tarjeta a través de un link', 'Asistente generar cotizaciones de cirugía', 'Visualiza el historial por paciente', 'Creación automática de recetas médicas', 'Facturación electrónica automática para el SAT', 'Avisos internos a tu equipo según el paciente'],
         kpi: 'Finanzas y facturas en automático',
     },
     {
         n: '05', cls: 'g5', badge: 'Q1 2027', name: 'Deep Tech & Scaling',
-        days: '~23 días hábiles', weeks: '4–5 semanas', cost: '$157,500', pct: '19%',
+        days: '~23 días hábiles', weeks: '4–5 semanas', cost: '$157,500', origCost: '$272,000', pct: '19%',
         items: ['La IA aprende exclusivamente de tus PDF y manuales', 'Búsqueda inteligente dentro de tu propio conocimiento', 'Asistente resuelve dudas del paciente después de cirugía', 'Resultados de laboratorio directo en tu pantalla', 'Reportes médicos automáticos para aseguradoras', 'Biblioteca visual de ejercicios de rehabilitación'],
         kpi: 'Tu propio conocimiento hecho software',
     },
@@ -367,6 +384,43 @@ export default function App() {
                             <div key={i} className="tl-item reveal" style={{ transitionDelay: `${i * .09}s` }}>
                                 <div className={`tl-dot ${t.ok ? 'ok' : 'bad'}`}>{t.icon}</div>
                                 <div className={`tl-body ${t.ok ? 'ok' : 'bad'}`}><h4>{t.title}</h4><p>{t.desc}</p></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* PAIN MAP */}
+            <section style={{ background: 'var(--navy)' }} id="diagnostico">
+                <div className="container">
+                    <span className="slbl reveal">Diagnóstico completo</span>
+                    <h2 className="display reveal">Captamos cada punto<br /><em>de dolor de tu clínica</em></h2>
+                    <p className="lead reveal">No llegamos a vender software. Llegamos después de estudiar tu operación. Aquí está lo que identificamos — y en qué fase lo resolvemos.</p>
+                    <div className="pain-list reveal">
+                        {[
+                            { ico: '🌐', title: 'Sitio web roto y desactualizado', txt: 'Pacientes buscan al doctor en Google y encuentran una página que no genera confianza ni citas.', phase: 'F1', cls: 'f1' },
+                            { ico: '📲', title: 'Miles de mensajes de WhatsApp sin respuesta', txt: 'El volumen de mensajes supera la capacidad humana. Se pierden pacientes cada día por falta de respuesta rápida.', phase: 'F1', cls: 'f1' },
+                            { ico: '📅', title: 'Agenda de rehabilitación desconectada', txt: 'Los pacientes de rehab no pueden agendar solos. Dependen de llamadas o mensajes que se pierden.', phase: 'F1', cls: 'f1' },
+                            { ico: '🏥', title: 'Doctoralia subutilizada', txt: 'Tienes perfil pero no está integrado al flujo de trabajo ni automatizado para captar citas nuevas.', phase: 'F1', cls: 'f1' },
+                            { ico: '📂', title: 'Sin expediente digital centralizado', txt: 'La información del paciente está fragmentada. Imposible tener un historial completo en un clic.', phase: 'F2', cls: 'f2' },
+                            { ico: '✍️', title: 'Notas clínicas manuales y lentas', txt: 'Escribir notas después de cada consulta consume tiempo valioso que podría dedicarse a más pacientes.', phase: 'F2', cls: 'f2' },
+                            { ico: '📋', title: 'Sin cuestionarios pre-consulta', txt: 'El doctor llega a la cita sin datos del paciente. Se pierde tiempo recabando información básica en consultorio.', phase: 'F2', cls: 'f2' },
+                            { ico: '🔗', title: 'Doctoralia no sincroniza con tu agenda interna', txt: 'Las citas de Doctoralia y las internas viven en mundos separados. Doble trabajo para el equipo.', phase: 'F3', cls: 'f3' },
+                            { ico: '📣', title: 'Sin seguimiento automático post-consulta', txt: 'Después de la cita, el paciente desaparece. No hay recordatorios ni seguimiento sistemático por padecimiento.', phase: 'F3', cls: 'f3' },
+                            { ico: '💰', title: 'Cobros y facturación manuales', txt: 'Generar facturas para el SAT es lento y propenso a errores. No hay forma fácil de cobrar en línea.', phase: 'F4', cls: 'f4' },
+                            { ico: '📊', title: 'Sin visibilidad financiera real', txt: 'Imposible saber cuánto se genera por fase, por tipo de consulta o por día sin revisar registros manuales.', phase: 'F4', cls: 'f4' },
+                            { ico: '🧪', title: 'Resultados de laboratorio fuera del flujo', txt: 'El doctor pide labs en Chopo o Salud Digna pero no los ve integrados en el expediente del paciente.', phase: 'F5', cls: 'f5' },
+                            { ico: '🧠', title: 'Sin IA entrenada con tu propio conocimiento', txt: 'No existe un asistente que responda con los protocolos, PDFs y manuales propios del Dr. Ruiz.', phase: 'F5', cls: 'f5' },
+                            { ico: '🏋️', title: 'Sin material visual de rehabilitación para pacientes', txt: 'Los pacientes se van a casa sin guías claras de ejercicios. Alta tasa de dudas y llamadas de seguimiento.', phase: 'F5', cls: 'f5' },
+                        ].map((p, i) => (
+                            <div key={i} className="pain-row solved reveal" style={{ transitionDelay: `${i * .04}s` }}>
+                                <div className="pain-ico-txt">
+                                    <span className="pain-ico">{p.ico}</span>
+                                    <div className="pain-txt"><strong>{p.title}</strong>{p.txt}</div>
+                                </div>
+                                <div className="pain-badge">
+                                    <span className={`pain-phase ${p.cls}`}>{p.phase}</span>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -472,11 +526,17 @@ export default function App() {
                                 <div className="phase-footer">
                                     <span className="days">{p.days}</span>
                                     <span className="weeks">{p.weeks}</span>
-                                    <span className="cost">{p.cost} MXN</span>
+                                    <span className="cost">
+                                        <span style={{ textDecoration: 'line-through', opacity: .45, fontSize: '.75em', display: 'block' }}>{p.origCost}</span>
+                                        {p.cost} MXN
+                                    </span>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    <p style={{ fontSize: '.76rem', color: 'var(--white-dim)', opacity: .55, marginTop: '1rem' }}>
+                        * El presupuesto para Google Ads no está incluido en el precio de la Fase 1. Se define y maneja por separado según los objetivos de campaña acordados.
+                    </p>
                 </div>
             </section>
 
@@ -535,76 +595,69 @@ export default function App() {
             </section>
 
             {/* INVERSION */}
-            <section style={{ background: 'var(--navy)' }} id="inversion">
-                <div className="container">
-                    <span className="slbl reveal">Inversión transparente</span>
-                    <h2 className="display reveal">Cada peso,<br /><em>justificado y trazable</em></h2>
-                    <p className="lead reveal">Equipo de 3: 1 Senior Dev · 1 QA/SDET · 1 BA. Total: 1,890 horas de ingeniería distribuidas en ~158 días hábiles.</p>
-                    <table className="invest-table reveal">
-                        <thead>
-                            <tr>
-                                <th>Fase</th><th>Nombre</th><th>Dev (hrs)</th><th>QA (hrs)</th><th>BA (hrs)</th><th>Días hábiles</th><th style={{ textAlign: 'right' }}>Total MXN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {[
-                                ['F1', 'Digital Foundation', 180, 80, 60, '~27 días · 5-6 sem', '$141,300'],
-                                ['F2', 'Patient Platform', 320, 140, 100, '~47 días · 9-10 sem', '$285,500'],
-                                ['F3', 'CRM Automation', 220, 100, 80, '~33 días · 6-7 sem', '$221,900'],
-                                ['F4', 'Intelligence', 180, 80, 70, '~28 días · 5-6 sem', '$178,700'],
-                                ['F5', 'Deep Tech & Scaling', 160, 70, 50, '~23 días · 4-5 sem', '$157,500'],
-                            ].map(([f, n, d, q, b, days, t]) => (
-                                <tr key={f}>
-                                    <td style={{ color: 'var(--green)', fontWeight: 700 }}>{f}</td>
-                                    <td style={{ fontWeight: 600 }}>{n}</td>
-                                    <td style={{ color: 'var(--white-dim)' }}>{d}</td>
-                                    <td style={{ color: 'var(--white-dim)' }}>{q}</td>
-                                    <td style={{ color: 'var(--white-dim)' }}>{b}</td>
-                                    <td style={{ color: 'var(--white-dim)', fontSize: '.82rem' }}>{days}</td>
-                                    <td style={{ textAlign: 'right', fontWeight: 700 }}>{t}</td>
-                                </tr>
-                            ))}
-                            <tr className="total-row">
-                                <td colSpan={2}>TOTAL</td>
-                                <td>1,060</td><td>470</td><td>360</td>
-                                <td style={{ color: 'var(--green)' }}>~158 días</td>
-                                <td style={{ textAlign: 'right', fontSize: '1rem' }}>~$984,900 MXN</td>
-                            </tr>
-                            <tr className="disc-row">
-                                <td colSpan={6} style={{ color: 'var(--green)', fontWeight: 600 }}>🎁 Descuento especial lanzamiento (–10%) — proyecto completo 5 fases</td>
-                                <td style={{ textAlign: 'right', color: 'var(--green)', fontSize: '1.1rem', fontWeight: 800 }}>$886,410 MXN</td>
-                            </tr>
-                            <tr className="mtto-row">
-                                <td colSpan={6}>Mantenimiento mensual post-entrega (AWS + WhatsApp + LLM + Soporte 15 hrs)</td>
-                                <td style={{ textAlign: 'right', color: 'var(--green)', fontWeight: 700 }}>~$8,750/mes</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div id="inversion">
+                <details>
+                    <summary style={{
+                        cursor: 'pointer', listStyle: 'none', display: 'flex',
+                        alignItems: 'center', justifyContent: 'flex-end',
+                        padding: '1rem 2rem', userSelect: 'none',
+                        background: 'var(--navy)', borderTop: '1px solid var(--border)'
+                    }}>
+                        <span style={{ fontSize: '1.1rem', opacity: .45, color: 'var(--white)' }}>▼</span>
+                    </summary>
 
-                    <div className="roi-block reveal">
-                        <div>
-                            <h3>¿En cuánto tiempo se recupera la inversión?</h3>
-                            <p>A $900 por consulta y 30 pacientes los sábados, el Dr. Ruiz genera $108,000 MXN en un solo día. La Fase 1 completa ($141,300 MXN) se recupera en <strong style={{ color: 'var(--green)' }}>menos de 2 meses</strong> si el chatbot convierte apenas 5 pacientes adicionales por semana — exactamente lo que hace desde el Día 1.</p>
-                            <p style={{ marginTop: '1rem' }}>El mantenimiento mensual completo equivale a <strong style={{ color: 'var(--green)' }}>menos de 10 consultas al mes</strong>. Menos de media jornada de sábado para tener toda la plataforma operando.</p>
+                    <section style={{ background: 'var(--navy)' }}>
+                        <div className="container">
+                            <span className="slbl" style={{ display: 'block' }}>Inversión transparente</span>
+                            <h2 className="display">Cada peso,<br /><em>justificado y trazable</em></h2>
+                            <p className="lead">Equipo de 3: 1 Senior Dev · 1 QA/SDET · 1 BA. Total: 1,890 horas de ingeniería distribuidas en ~158 días hábiles.</p>
+                            <table className="invest-table" style={{ marginTop: '1.5rem' }}>
+                                <thead>
+                                    <tr>
+                                        <th>Fase</th><th>Nombre</th><th>Dev (hrs)</th><th>QA (hrs)</th><th>BA (hrs)</th><th>Días hábiles</th><th style={{ textAlign: 'right' }}>Total MXN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[
+                                        ['F1', 'Digital Foundation', 180, 80, 60, '~27 días · 5-6 sem', '$234,800', '$141,300'],
+                                        ['F2', 'Patient Platform', 320, 140, 100, '~47 días · 9-10 sem', '$536,400', '$285,500'],
+                                        ['F3', 'CRM Automation', 220, 100, 80, '~33 días · 6-7 sem', '$372,200', '$221,900'],
+                                        ['F4', 'Intelligence', 180, 80, 70, '~28 días · 5-6 sem', '$309,800', '$178,700'],
+                                        ['F5', 'Deep Tech & Scaling', 160, 70, 50, '~23 días · 4-5 sem', '$272,000', '$157,500'],
+                                    ].map(([f, n, d, q, b, days, orig, t]) => (
+                                        <tr key={f}>
+                                            <td style={{ color: 'var(--green)', fontWeight: 700 }}>{f}</td>
+                                            <td style={{ fontWeight: 600 }}>{n}</td>
+                                            <td style={{ color: 'var(--white-dim)' }}>{d}</td>
+                                            <td style={{ color: 'var(--white-dim)' }}>{q}</td>
+                                            <td style={{ color: 'var(--white-dim)' }}>{b}</td>
+                                            <td style={{ color: 'var(--white-dim)', fontSize: '.82rem' }}>{days}</td>
+                                            <td style={{ textAlign: 'right' }}>
+                                                <div style={{ textDecoration: 'line-through', color: 'var(--white-dim)', fontSize: '.78rem', opacity: .55 }}>{orig}</div>
+                                                <div style={{ fontWeight: 700 }}>{t}</div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    <tr className="total-row">
+                                        <td colSpan={2}>TOTAL</td>
+                                        <td>1,060</td><td>470</td><td>360</td>
+                                        <td style={{ color: 'var(--green)' }}>~158 días</td>
+                                        <td style={{ textAlign: 'right', fontSize: '1rem' }}>~$984,900 MXN</td>
+                                    </tr>
+                                    <tr className="disc-row">
+                                        <td colSpan={6} style={{ color: 'var(--green)', fontWeight: 600 }}>🎁 Descuento especial lanzamiento (–10%) — proyecto completo 5 fases</td>
+                                        <td style={{ textAlign: 'right', color: 'var(--green)', fontSize: '1.1rem', fontWeight: 800 }}>$886,410 MXN</td>
+                                    </tr>
+                                    <tr className="mtto-row">
+                                        <td colSpan={6}>Mantenimiento mensual post-entrega (AWS + WhatsApp + LLM + Soporte 15 hrs)</td>
+                                        <td style={{ textAlign: 'right', color: 'var(--green)', fontWeight: 700 }}>~$5,000/mes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div className="roi-items">
-                            {[
-                                ['Ingreso 1 sábado (30 px)', '$108,000 MXN'],
-                                ['Inversión Fase 1', '$141,300 MXN'],
-                                ['Recuperación estimada', '< 2 meses'],
-                                ['Duración total proyecto', '~158 días hábiles'],
-                                ['Mantenimiento/mes', '~$8,750 MXN'],
-                                ['Equivale a...', '< 10 consultas/mes'],
-                            ].map(([l, v], i) => (
-                                <div key={i} className="roi-item">
-                                    <span className="roi-lbl">{l}</span>
-                                    <span className="roi-val">{v}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    </section>
+                </details>
+            </div>
 
             {/* MTTO */}
             <section style={{ background: 'var(--navy-mid)' }} id="mtto">
@@ -618,7 +671,7 @@ export default function App() {
                             { ico: '💬', lbl: 'WhatsApp Business API', val: '$241', sub: '~800 msgs template/mes · Entrantes gratis' },
                             { ico: '🌐', lbl: 'Dominios', val: '$50', sub: 'drcesarruiz.com + saludosea.com · Anual' },
                             { ico: '🤖', lbl: 'LLM API (OpenAI)', val: '$88', sub: '~300K tokens/mes · GPT-4o mini Fase 1' },
-                            { ico: '🔧', lbl: 'Soporte RobotInAi SLA', val: '$7,580', sub: '15 hrs/mes · 8h Dev + 4h QA + 3h BA' },
+                            { ico: '🔧', lbl: 'Soporte RobotInAi SLA', val: '$5,000', sub: '15 hrs/mes · 8h Dev + 4h QA + 3h BA' },
                         ].map((m, i) => (
                             <div key={i} className="mtto-card reveal" style={{ transitionDelay: `${i * .08}s` }}>
                                 <div className="mtto-ico">{m.ico}</div>
@@ -630,7 +683,7 @@ export default function App() {
                         <div className="mtto-total reveal" style={{ transitionDelay: '.4s' }}>
                             <div className="mtto-ico">💰</div>
                             <p>Total mensual (Fase 1)</p>
-                            <h3>~$8,750</h3>
+                            <h3>~$5,000</h3>
                             <p>MXN / mes · Escala a ~$10,738 en Fase 4–5</p>
                         </div>
                     </div>
@@ -740,8 +793,8 @@ export default function App() {
 
             <footer>
                 <img src="white-pet-bot-no-back-no-name.png" alt="RobotInAi" style={{height:'48px',width:'auto',marginBottom:'.5rem'}} />
-                <p>Propuesta de Transformación Digital · Dr. César Ruiz · Marzo 2026</p>
-                <p style={{ marginTop: '.3rem', opacity: .4 }}>BRD v1.1 · 1,890 hrs de ingeniería · ~158 días hábiles · smart-flows.tech</p>
+                <p style={{ color: 'var(--white)' }}>Propuesta de Transformación Digital · Dr. César Ruiz · Marzo 2026</p>
+                <p style={{ marginTop: '.3rem', color: 'var(--white)' }}>smart-flows.tech</p>
             </footer>
         </>
     );
