@@ -410,9 +410,9 @@ const modulesExtra = [
             { file: 'mockups/mx-05-marketing-digital.webp', label: 'Marketing Digital', sublabel: 'Campañas y promociones segmentadas' },
         ],
         features: [
-            { star: false, icon: '📊', title: 'Google Analytics', desc: 'Integración de analítica para medir tráfico, conversiones y comportamiento de pacientes en la app.', tags: ['both'] },
-            { star: false, icon: '🔍', title: 'SEO en páginas existentes', desc: 'Optimización de posicionamiento en buscadores para las páginas actuales del consultorio.', tags: ['both'] },
-            { star: false, icon: '📣', title: 'Marketing digital', desc: 'Campañas segmentadas, promociones por temporada y recordatorios de recompra. Operado por la socia de marketing.', tags: ['both'] },
+            { star: false, icon: '📊', title: 'Google Analytics', desc: 'Integración de analítica para medir tráfico, conversiones y comportamiento de pacientes en la app.', tags: [] },
+            { star: false, icon: '🔍', title: 'SEO en páginas existentes', desc: 'Optimización de posicionamiento en buscadores para las páginas actuales del consultorio.', tags: [] },
+            { star: false, icon: '📣', title: 'Marketing digital', desc: 'Campañas segmentadas, promociones por temporada y recordatorios de recompra. Operado por la socia de marketing.', tags: [] },
         ]
     },
 ];
