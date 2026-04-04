@@ -213,6 +213,34 @@ const style = `
     .extra-dropdown-right { align-self: flex-end; }
   }
 
+  /* MARKETING CARDS */
+  .mkt-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+  .mkt-card { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; position: relative; overflow: hidden; }
+  .mkt-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .mkt-card.setup::before { background: var(--green); }
+  .mkt-card.monthly::before { background: var(--orange); }
+  .mkt-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .mkt-card-type { font-size: .65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: .2rem .6rem; border-radius: 50px; }
+  .mkt-card.setup .mkt-card-type { background: rgba(0,230,118,.1); color: var(--green); }
+  .mkt-card.monthly .mkt-card-type { background: rgba(255,112,67,.1); color: var(--orange); }
+  .mkt-card-price { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 900; color: var(--green); }
+  .mkt-card.monthly .mkt-card-price { color: var(--orange); }
+  .mkt-card-price span { font-size: .7rem; font-weight: 400; color: var(--white-dim); }
+  .mkt-card-features { display: flex; flex-direction: column; gap: .6rem; margin-top: .8rem; }
+  .mkt-feat { display: flex; gap: .6rem; align-items: flex-start; }
+  .mkt-feat-icon { font-size: .9rem; flex-shrink: 0; margin-top: .1rem; }
+  .mkt-feat-text h5 { font-size: .8rem; font-weight: 600; color: var(--white); margin-bottom: .1rem; }
+  .mkt-feat-text p { font-size: .72rem; color: var(--white-dim); line-height: 1.4; }
+  .mkt-ads-note { background: rgba(255,112,67,.06); border: 1px solid rgba(255,112,67,.2); border-radius: var(--radius); padding: 1rem 1.3rem; margin-top: 1.2rem; }
+  .mkt-ads-note h5 { font-size: .82rem; font-weight: 700; color: var(--orange); margin-bottom: .3rem; }
+  .mkt-ads-note p { font-size: .78rem; color: var(--white-dim); line-height: 1.5; }
+  .mkt-synergy { background: rgba(0,230,118,.05); border: 1px solid rgba(0,230,118,.15); border-radius: var(--radius); padding: 1rem 1.3rem; margin-top: .8rem; }
+  .mkt-synergy p { font-size: .78rem; color: var(--white-dim); line-height: 1.5; }
+  .mkt-badge { display: inline-flex; align-items: center; gap: .4rem; font-size: .68rem; font-weight: 600; color: var(--orange); background: rgba(255,112,67,.08); border: 1px solid rgba(255,112,67,.2); padding: .25rem .7rem; border-radius: 50px; margin-top: .8rem; }
+  @media(max-width:700px){
+    .mkt-cards { grid-template-columns: 1fr; }
+  }
+
   /* MODULE SELECTOR — 2 col layout */
   .selector-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
   .selector-left { display: flex; flex-direction: column; gap: .7rem; }
@@ -403,17 +431,39 @@ const modulesExtra = [
     {
         id: 'mx2', n: 'Extra', cls: 'mx', color: 'var(--orange)',
         icon: '📣', name: 'Marketing Digital',
-        subtitle: 'Posicionamiento, analítica y campañas — precio tentativo',
-        price: '$6,000', meta: 'Alcance sujeto a revisión',
-        tentative: true,
+        subtitle: 'Sistema de captación de pacientes para traumatología',
+        price: '$8,000', meta: 'Setup único + mensualidad',
+        marketing: true,
         mockups: [
             { file: 'mockups/mx-05-marketing-digital.webp', label: 'Marketing Digital', sublabel: 'Campañas y promociones segmentadas' },
+            { file: 'mockups/mx-06-google-ads-dashboard.webp', label: 'Dashboard Google Ads', sublabel: 'Métricas de campañas y conversiones' },
+            { file: 'mockups/mx-07-resultados-captacion.webp', label: 'Resultados de Captación', sublabel: 'Pacientes nuevos y ROI mensual' },
         ],
-        features: [
-            { star: false, icon: '📊', title: 'Google Analytics', desc: 'Integración de analítica para medir tráfico, conversiones y comportamiento de pacientes en la app.', tags: [] },
-            { star: false, icon: '🔍', title: 'SEO en páginas existentes', desc: 'Optimización de posicionamiento en buscadores para las páginas actuales del consultorio.', tags: [] },
-            { star: false, icon: '📣', title: 'Marketing digital', desc: 'Campañas segmentadas, promociones por temporada y recordatorios de recompra. Operado por la socia de marketing.', tags: [] },
-        ]
+        setup: {
+            price: '$8,000',
+            label: 'Setup inicial',
+            type: 'Pago único',
+            features: [
+                { icon: '⚙️', title: 'Configuración completa de Google Ads', desc: 'Campañas creadas desde cero, listas para generar pacientes.' },
+                { icon: '🔎', title: 'Investigación de keywords', desc: 'Keywords enfocadas a traumatología en Monterrey.' },
+                { icon: '✍️', title: 'Redacción de anuncios', desc: 'Anuncios orientados a generar pacientes reales.' },
+                { icon: '📞', title: 'Configuración de conversiones', desc: 'Tracking de WhatsApp y llamadas como conversiones.' },
+                { icon: '🔍', title: 'SEO básico del sitio', desc: 'Optimización inicial del sitio web — palabras clave y estructura.' },
+                { icon: '📍', title: 'Google Business Profile', desc: 'Revisión estratégica del perfil para posicionamiento local.' },
+            ]
+        },
+        monthly: {
+            price: '$3,000',
+            label: 'Mantenimiento',
+            type: 'Mensual',
+            features: [
+                { icon: '📊', title: 'Gestión de Google Ads', desc: 'Revisión quincenal, ajuste de keywords y optimización para menor costo por paciente.' },
+                { icon: '📈', title: 'Seguimiento de resultados', desc: 'Análisis de mensajes, llamadas y contactos generados. Identificación de mejores campañas.' },
+                { icon: '🎯', title: 'Ajustes estratégicos', desc: 'Recomendaciones y cambios puntuales en campañas según desempeño.' },
+                { icon: '🔍', title: 'SEO ligero', desc: 'Ajustes menores en sitio web y mejoras ocasionales en contenido o estructura.' },
+            ]
+        },
+        adSpend: { min: '$3,000', max: '$6,000' },
     },
 ];
 
@@ -644,26 +694,75 @@ export default function App() {
                                     </div>
                                 </div>
                                 <div className="extra-dropdown-right">
-                                    <div className="mod-price-big" style={{ fontSize: '1.4rem' }}>
-                                        {mx.price} <span style={{ fontSize: '.75rem', fontWeight: 400, color: 'var(--white-dim)' }}>MXN</span>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        <div className="mod-price-big" style={{ fontSize: '1.4rem' }}>
+                                            {mx.marketing ? `Desde ${mx.price}` : mx.price} <span style={{ fontSize: '.75rem', fontWeight: 400, color: 'var(--white-dim)' }}>MXN</span>
+                                        </div>
+                                        {mx.marketing && <span style={{ fontSize: '.65rem', color: 'var(--orange)', fontWeight: 600 }}>+ {mx.monthly.price}/mes mantenimiento</span>}
                                     </div>
-                                    {mx.tentative && <span style={{ fontSize: '.65rem', color: 'var(--orange)', fontWeight: 700 }}>PRECIO TENTATIVO</span>}
                                     <span className="extra-chevron" style={{ transform: extraOpen[mx.id] ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
                                 </div>
                             </div>
                             {extraOpen[mx.id] && (
                                 <div className="extra-dropdown-body">
                                     <MockupGallery mockups={mx.mockups} onOpen={openLightbox} />
-                                    {renderFeatures(mx.features)}
-                                    {mx.tentative && (
-                                        <div className="note-block" style={{ marginTop: '1.5rem' }}>
-                                            <p><strong>Nota:</strong> El alcance y precio de este módulo son tentativos. El servicio de marketing digital será operado por la socia de marketing. Se definirá el alcance final antes de iniciar.</p>
-                                        </div>
-                                    )}
-                                    {!mx.tentative && (
-                                        <div className="note-block" style={{ marginTop: '1.5rem' }}>
-                                            <p><strong>Nota:</strong> Alcance sujeto a revisión final. Las horas y costo se basan en el catálogo inicial de productos del Dr. Ruiz. Recomendamos definir el catálogo mínimo viable antes de comprometer este módulo.</p>
-                                        </div>
+                                    {mx.marketing ? (
+                                        <>
+                                            <div className="mkt-cards">
+                                                <div className="mkt-card setup">
+                                                    <div className="mkt-card-header">
+                                                        <div>
+                                                            <div className="mkt-card-type">{mx.setup.type}</div>
+                                                            <h4 style={{ fontFamily: "'Fraunces', serif", fontWeight: 900, fontSize: '1.05rem', marginTop: '.4rem' }}>{mx.setup.label}</h4>
+                                                        </div>
+                                                        <div className="mkt-card-price">{mx.setup.price} <span>MXN</span></div>
+                                                    </div>
+                                                    <div className="mkt-card-features">
+                                                        {mx.setup.features.map((f, i) => (
+                                                            <div key={i} className="mkt-feat">
+                                                                <span className="mkt-feat-icon">{f.icon}</span>
+                                                                <div className="mkt-feat-text"><h5>{f.title}</h5><p>{f.desc}</p></div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="mkt-card monthly">
+                                                    <div className="mkt-card-header">
+                                                        <div>
+                                                            <div className="mkt-card-type">{mx.monthly.type}</div>
+                                                            <h4 style={{ fontFamily: "'Fraunces', serif", fontWeight: 900, fontSize: '1.05rem', marginTop: '.4rem' }}>{mx.monthly.label}</h4>
+                                                        </div>
+                                                        <div className="mkt-card-price">{mx.monthly.price} <span>MXN/mes</span></div>
+                                                    </div>
+                                                    <div className="mkt-card-features">
+                                                        {mx.monthly.features.map((f, i) => (
+                                                            <div key={i} className="mkt-feat">
+                                                                <span className="mkt-feat-icon">{f.icon}</span>
+                                                                <div className="mkt-feat-text"><h5>{f.title}</h5><p>{f.desc}</p></div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="mkt-ads-note">
+                                                <h5>💰 Inversión en publicidad (Ads)</h5>
+                                                <p>Inversión recomendada: <strong style={{ color: 'var(--white)' }}>{mx.adSpend.min} – {mx.adSpend.max} MXN mensuales</strong> pagados directamente a Google Ads. Se maneja de forma independiente al costo del servicio — sin markup, sin intermediarios.</p>
+                                            </div>
+                                            <div className="mkt-synergy">
+                                                <p>🚀 <strong style={{ color: 'var(--green)' }}>Ventaja competitiva:</strong> Al integrar el marketing con la plataforma desarrollada, el sitio optimizado mejora el Quality Score de Google Ads, reduciendo el costo por clic y maximizando el retorno de la inversión publicitaria.</p>
+                                            </div>
+                                            <div className="mkt-badge">👩‍💼 Operado por el área de Marketing</div>
+                                            <div className="note-block" style={{ marginTop: '.8rem' }}>
+                                                <p><strong>Nota:</strong> La mensualidad corresponde a mantenimiento y optimización, no a gestión intensiva. Los resultados pueden variar dependiendo de la inversión en publicidad, la competencia y el seguimiento a los pacientes.</p>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {renderFeatures(mx.features)}
+                                            <div className="note-block" style={{ marginTop: '1.5rem' }}>
+                                                <p><strong>Nota:</strong> Alcance sujeto a revisión final. Las horas y costo se basan en el catálogo inicial de productos del Dr. Ruiz. Recomendamos definir el catálogo mínimo viable antes de comprometer este módulo.</p>
+                                            </div>
+                                        </>
                                     )}
                                 </div>
                             )}
@@ -698,7 +797,7 @@ export default function App() {
                                             <h4>{m.icon} {m.id.startsWith('mx') ? `Extra — ${m.name}` : `Módulo ${m.n} — ${m.name}`}</h4>
                                             <p>{m.subtitle}</p>
                                             {missingDeps.length > 0 && <div className="sel-dep-tag auto">⚠ Requiere {missingDeps.map(d => d.toUpperCase().replace('M', 'M0')).join(', ')}</div>}
-                                            {m.tentative && <div className="sel-dep-tag note">Precio tentativo</div>}
+                                            {m.marketing && <div className="sel-dep-tag note">Setup único + $3,000/mes</div>}
                                         </div>
                                         <div className="sel-price">{m.price}</div>
                                     </div>
