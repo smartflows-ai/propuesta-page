@@ -504,6 +504,242 @@ function MockupGallery({ mockups, onOpen }) {
     );
 }
 
+// ── COUNTDOWN GATE ──────────────────────────────────────────────────────────
+// TEST_MODE: countdown starts 15 s from first load (stored in localStorage).
+// For production: set TEST_MODE = false — it will use REVEAL_DATE instead.
+const TEST_MODE = false;
+const REVEAL_DATE = new Date('2026-04-10T19:00:00'); // Friday April 10 at 7 PM
+
+const getRevealDate = () => {
+    if (TEST_MODE) {
+        const key = 'propuesta_reveal_test';
+        const stored = localStorage.getItem(key);
+        if (stored) return new Date(parseInt(stored, 10));
+        const t = Date.now() + 15 * 1000;
+        localStorage.setItem(key, String(t));
+        return new Date(t);
+    }
+    return REVEAL_DATE;
+};
+
+const countdownStyle = `
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #050d1a; overflow-x: hidden; }
+
+  .cg-root {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    color: #f8fafb;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .cg-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(0,230,118,.09), transparent 65%);
+  }
+  .cg-grid {
+    position: absolute; inset: 0; opacity: .03;
+    background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .cg-inner {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    width: 100%;
+  }
+  .cg-logo { height: 48px; opacity: .7; margin-bottom: 2.2rem; }
+
+  .cg-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(0,230,118,.14); border: 1px solid rgba(0,230,118,.3);
+    color: #00e676; padding: .32rem .9rem; border-radius: 50px;
+    font-size: .73rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .cg-pulse {
+    width: 7px; height: 7px; border-radius: 50%; background: #00e676;
+    animation: cgpulse 2s infinite; flex-shrink: 0;
+  }
+  @keyframes cgpulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.4; transform:scale(.75); }
+  }
+
+  .cg-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 900; letter-spacing: -1.5px; line-height: 1.1;
+    color: #f8fafb; margin-bottom: .75rem;
+  }
+  .cg-title em { color: #00e676; font-style: italic; }
+  .cg-sub {
+    font-size: clamp(.82rem, 2.2vw, .92rem);
+    color: rgba(248,250,251,.55);
+    line-height: 1.7; max-width: 340px; margin-bottom: 2.5rem;
+  }
+
+  /* ── Timer row (desktop) ── */
+  .cg-timer {
+    display: flex; gap: .75rem; align-items: center;
+    justify-content: center; margin-bottom: 2.5rem;
+    flex-wrap: nowrap;
+  }
+  .cg-unit { display: flex; flex-direction: column; align-items: center; gap: .45rem; }
+  .cg-card {
+    background: #111f38; border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; padding: 1.2rem 1.5rem;
+    position: relative; overflow: hidden;
+    min-width: 5rem; text-align: center;
+    transition: border-color .3s;
+  }
+  .cg-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: #00e676; border-radius: 3px 0 0 3px;
+  }
+  .cg-digit {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    font-weight: 900; color: #00e676; line-height: 1;
+  }
+  .cg-lbl {
+    font-size: .58rem; letter-spacing: 2.5px;
+    text-transform: uppercase; color: rgba(248,250,251,.38);
+  }
+  .cg-sep {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 900; color: rgba(0,230,118,.28);
+    margin-bottom: 1.2rem; user-select: none; flex-shrink: 0;
+  }
+
+  .cg-footer {
+    display: flex; align-items: center; gap: .5rem;
+    color: rgba(248,250,251,.25); font-size: .78rem;
+  }
+  .cg-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(0,230,118,.4); }
+
+  /* ── Tablet (≤ 640px): tighten spacing ── */
+  @media (max-width: 640px) {
+    .cg-root { padding: 1.5rem 1.2rem; }
+    .cg-logo { height: 40px; margin-bottom: 1.8rem; }
+    .cg-badge { font-size: .65rem; padding: .28rem .75rem; margin-bottom: 1.2rem; }
+    .cg-title { letter-spacing: -1px; margin-bottom: .6rem; }
+    .cg-sub { margin-bottom: 2rem; }
+    .cg-timer { gap: .5rem; margin-bottom: 2rem; }
+    .cg-card { padding: 1rem 1.1rem; min-width: 4.4rem; border-radius: 12px; }
+    .cg-sep { font-size: clamp(1.3rem, 4vw, 2rem); margin-bottom: 1rem; }
+  }
+
+  /* ── Mobile (≤ 480px): 2×2 grid, hide separators ── */
+  @media (max-width: 480px) {
+    .cg-root { padding: 1.5rem 1rem; justify-content: center; }
+    .cg-logo { height: 36px; margin-bottom: 1.6rem; }
+    .cg-badge { font-size: .62rem; letter-spacing: .5px; }
+    .cg-title { font-size: clamp(1.5rem, 7.5vw, 2rem); }
+    .cg-sub { font-size: .8rem; max-width: 280px; margin-bottom: 1.8rem; }
+
+    .cg-timer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "d h"
+        "m s";
+      gap: .65rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    .cg-sep { display: none; }
+    .cg-unit:nth-child(1) { grid-area: d; }
+    .cg-unit:nth-child(3) { grid-area: h; }
+    .cg-unit:nth-child(5) { grid-area: m; }
+    .cg-unit:nth-child(7) { grid-area: s; }
+
+    .cg-card { padding: 1rem; min-width: unset; width: 100%; border-radius: 12px; }
+    .cg-digit { font-size: clamp(2rem, 12vw, 2.6rem); }
+    .cg-lbl { font-size: .55rem; letter-spacing: 2px; }
+  }
+`;
+
+function CountdownGate({ children }) {
+    const [revealed, setRevealed] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(null);
+
+    useEffect(() => {
+        const revealDate = getRevealDate();
+        const tick = () => {
+            const diff = revealDate - Date.now();
+            if (diff <= 0) { setRevealed(true); return; }
+            setTimeLeft({
+                d: Math.floor(diff / 86400000),
+                h: Math.floor((diff % 86400000) / 3600000),
+                m: Math.floor((diff % 3600000) / 60000),
+                s: Math.floor((diff % 60000) / 1000),
+            });
+        };
+        tick();
+        const id = setInterval(tick, 1000);
+        return () => clearInterval(id);
+    }, []);
+
+    if (revealed) return children;
+    if (!timeLeft) return null;
+
+    const pad = (n) => String(n).padStart(2, '0');
+
+    return (
+        <div className="cg-root">
+            <style>{countdownStyle}</style>
+            <div className="cg-bg" />
+            <div className="cg-grid" />
+            <div className="cg-inner">
+                <img src="white-pet-bot-no-back-no-name.png" alt="RobotInAi" className="cg-logo" />
+                <div className="cg-badge">
+                    <div className="cg-pulse" /> Propuesta exclusiva · Próximamente
+                </div>
+                <h1 className="cg-title">Algo <em>especial</em><br />se aproxima</h1>
+                <p className="cg-sub">
+                    Una propuesta diseñada para transformar<br />la experiencia de tu clínica.
+                </p>
+                <div className="cg-timer">
+                    <div className="cg-unit">
+                        <div className="cg-card"><div className="cg-digit">{pad(timeLeft.d)}</div></div>
+                        <span className="cg-lbl">Días</span>
+                    </div>
+                    <span className="cg-sep">:</span>
+                    <div className="cg-unit">
+                        <div className="cg-card"><div className="cg-digit">{pad(timeLeft.h)}</div></div>
+                        <span className="cg-lbl">Horas</span>
+                    </div>
+                    <span className="cg-sep">:</span>
+                    <div className="cg-unit">
+                        <div className="cg-card"><div className="cg-digit">{pad(timeLeft.m)}</div></div>
+                        <span className="cg-lbl">Minutos</span>
+                    </div>
+                    <span className="cg-sep">:</span>
+                    <div className="cg-unit">
+                        <div className="cg-card"><div className="cg-digit">{pad(timeLeft.s)}</div></div>
+                        <span className="cg-lbl">Segundos</span>
+                    </div>
+                </div>
+                <div className="cg-footer">
+                    <div className="cg-dot" />
+                    smart-flows.tech
+                    <div className="cg-dot" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function App() {
     const [scrolled, setScrolled] = useState(false);
     const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0 });
@@ -596,6 +832,7 @@ export default function App() {
     );
 
     return (
+        <CountdownGate>
         <>
             <style>{style}</style>
 
@@ -886,5 +1123,6 @@ export default function App() {
                 )}
             </div>
         </>
+        </CountdownGate>
     );
 }
