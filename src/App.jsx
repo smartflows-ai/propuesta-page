@@ -689,7 +689,7 @@ function CountdownGate({ children }) {
         return () => clearInterval(id);
     }, []);
 
-    if (true) return children; // ← uncomment to bypass countdown
+    //if (true) return children; // ← uncomment to bypass countdown
     if (revealed) return children;
     if (!timeLeft) return null;
 
