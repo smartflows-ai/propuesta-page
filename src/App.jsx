@@ -508,7 +508,7 @@ function MockupGallery({ mockups, onOpen }) {
 // TEST_MODE: countdown starts 15 s from first load (stored in localStorage).
 // For production: set TEST_MODE = false — it will use REVEAL_DATE instead.
 const TEST_MODE = false;
-const REVEAL_DATE = new Date('2026-04-10T19:00:00'); // Friday April 10 at 7 PM
+const REVEAL_DATE = new Date('2026-04-09T17:00:00'); // Thursday April 9 at 5 PM
 
 const getRevealDate = () => {
     if (TEST_MODE) {
