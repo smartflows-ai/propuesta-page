@@ -329,8 +329,7 @@ const modules = [
         id: 'm1', n: '01', cls: 'm1', color: 'var(--green)',
         icon: '📱', name: 'App del Paciente (PWA)', tagline: 'SLIM',
         subtitle: 'Web app instalable en iPhone y Android — sin App Store',
-        price: '$72,000', meta: 'Dev 70h · QA 28h · BA 23h · ~18 días',
-        saving: '−$88K vs. nativa completa',
+        price: '$72,000', meta: 'Dev 88h · QA 44h · BA 30h · ~26 días',
         mockups: [
             { file: 'mockups/m1-01-login-home.webp', label: 'Login + Home del Paciente', sublabel: 'Acceso seguro y dashboard principal' },
             { file: 'mockups/m1-02-rehab-plan.webp', label: 'Plan de Rehabilitación', sublabel: 'Ejercicios con video integrado' },
@@ -351,7 +350,7 @@ const modules = [
         id: 'm2', n: '02', cls: 'm2', color: 'var(--gold)',
         icon: '🎖️', name: 'Tarjeta Digital de Lealtad + QR', tagline: '',
         subtitle: 'Sistema de puntos, canje y tienda de productos propios',
-        price: '$66,500', meta: 'Dev 80h · QA 35h · BA 30h · ~22 días',
+        price: '$66,500', meta: 'Dev 100h · QA 50h · BA 38h · ~30 días',
         saving: '',
         mockups: [
             { file: 'mockups/m2-01-qr-scan.webp', label: 'Escaneo QR en Recepción', sublabel: 'Check-in instantáneo del paciente' },
@@ -369,7 +368,7 @@ const modules = [
         id: 'm3', n: '03', cls: 'm3', color: 'var(--cyan)',
         icon: '🗂️', name: 'CRM Base + Login por Roles + Agenda', tagline: '',
         subtitle: 'Back-office del consultorio — lo que usa el equipo interno',
-        price: '$68,000', meta: 'Dev 90h · QA 40h · BA 35h · ~26 días',
+        price: '$68,000', meta: 'Dev 118h · QA 60h · BA 46h · ~38 días',
         saving: '',
         mockups: [
             { file: 'mockups/m3-01-crm-dashboard.webp', label: 'Dashboard del Doctor', sublabel: 'Métricas, pacientes del día y alertas' },
@@ -390,7 +389,7 @@ const modules = [
         id: 'm4', n: '04', cls: 'm4', color: 'var(--purple)',
         icon: '📋', name: 'Cuestionarios Pre-consulta + Escalas', tagline: '',
         subtitle: 'El paciente llega evaluado — el doctor llega preparado',
-        price: '$42,000', meta: 'Dev 55h · QA 25h · BA 20h · ~17 días',
+        price: '$42,000', meta: 'Dev 72h · QA 38h · BA 28h · ~24 días',
         saving: '',
         mockups: [
             { file: 'mockups/m4-01-escala-movil.webp', label: 'Escala de Dolor en Móvil', sublabel: 'Paciente completando escala antes de cita' },
@@ -415,7 +414,7 @@ const modulesExtra = [
         id: 'mx1', n: 'Extra', cls: 'mx', color: 'var(--orange)',
         icon: '🛒', name: 'Tienda + Pagos',
         subtitle: 'Tienda de productos, inventario y cobros con Stripe',
-        price: '$28,000', meta: 'Dev 40h · QA 18h · BA 15h · ~12 días',
+        price: '$28,000', meta: 'Dev 54h · QA 26h · BA 20h · ~17 días',
         mockups: [
             { file: 'mockups/mx-01-catalogo.webp', label: 'Catálogo de Productos', sublabel: 'Precios exclusivos para pacientes frecuentes' },
             { file: 'mockups/mx-02-inventario.webp', label: 'Inventario en CRM', sublabel: 'Stock, alertas y movimientos de venta' },
@@ -690,6 +689,7 @@ function CountdownGate({ children }) {
         return () => clearInterval(id);
     }, []);
 
+    if (true) return children; // ← uncomment to bypass countdown
     if (revealed) return children;
     if (!timeLeft) return null;
 
@@ -861,8 +861,7 @@ export default function App() {
                     </div>
                     <div className="hstats">
                         <div className="hstat reveal-r"><div className="hstat-num">4+1</div><div className="hstat-lbl">Módulos independientes que se ensamblan según la necesidad de la clínica</div></div>
-                        <div className="hstat reveal-r" style={{ transitionDelay: '.1s' }}><div className="hstat-num">−$88K</div><div className="hstat-lbl">Ahorro vs. app nativa en App Store — PWA instalable sin intermediarios</div></div>
-                        <div className="hstat reveal-r" style={{ transitionDelay: '.2s' }}><div className="hstat-num">~83 días</div><div className="hstat-lbl">Días hábiles estimados para los 4 módulos base completos</div></div>
+                        <div className="hstat reveal-r" style={{ transitionDelay: '.2s' }}><div className="hstat-num">~118 días</div><div className="hstat-lbl">Días hábiles estimados para los 4 módulos base completos</div></div>
                     </div>
                 </div>
             </section>
